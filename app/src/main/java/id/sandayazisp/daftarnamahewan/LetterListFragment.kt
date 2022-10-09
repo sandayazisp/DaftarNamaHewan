@@ -32,17 +32,18 @@ import id.sandayazisp.daftarnamahewan.R
 import id.sandayazisp.daftarnamahewan.databinding.FragmentLetterListBinding
 
 /**
- * Entry fragment for the app. Displays a [RecyclerView] of letters.
+ * membuat class letterlistfragment
  */
 class LetterListFragment : Fragment() {
+
+    // kode dibawah kita membuat view binding yang digunakan sebagai refrensi ke FragmentLetterListBinding dan memiliki nilai null
     private var _binding: FragmentLetterListBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // kode dibawah kita membuat kode binding yang memiliki properti get(). properti get() digunakan untuk mendapatkan nilai
     private val binding get() = _binding!!
 
     private lateinit var recyclerView: RecyclerView
-    // Keeps track of which LayoutManager is in use for the [RecyclerView]
+    // kode dibawah digunakan untuk melacak layout yang akan digunakan di recyclerview
     private var isLinearLayoutManager = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,12 +51,13 @@ class LetterListFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
+    // kode dibawah digunakan untuk meng-inflate tampilan, menyetel nilai _binding, dan menampilkan tampilan root.
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Retrieve and inflate the layout for this fragment
+        // kode dibawah digunakan untuk mengambil layout untuk fragment
         _binding = FragmentLetterListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
@@ -63,13 +65,13 @@ class LetterListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = binding.recyclerView
-        // Sets the LayoutManager of the recyclerview
-        // On the first run of the app, it will be LinearLayoutManager
+        // kode dibawah digunakan untuk mengatur layout dari recyclerview
+        // dan saat pertama menjalankan kali menjalankan aplikasi akan menjadi layout
         chooseLayout()
     }
 
     /**
-     * Frees the binding object when the Fragment is destroyed.
+     * kode dibawah digunakan untuk menyetel ulang properti _binding ke null karena tampilan sudah tidak ada.
      */
     override fun onDestroyView() {
         super.onDestroyView()
@@ -84,10 +86,7 @@ class LetterListFragment : Fragment() {
     }
 
     /**
-     * Sets the LayoutManager for the [RecyclerView] based on the desired orientation of the list.
-     *
-     * Notice that because the enclosing class has changed from an Activity to a Fragment,
-     * the signature of the LayoutManagers has to slightly change.
+     * kode dibawah digunakan untuk mengatur layout untuk recyclerview berdasarkan daftar yang diinginkan
      */
     private fun chooseLayout() {
         if (isLinearLayoutManager) {
@@ -109,24 +108,19 @@ class LetterListFragment : Fragment() {
     }
 
     /**
-     * Determines how to handle interactions with the selected [MenuItem]
+     * kode dibawah digunakan untuk menentukan pilihan dengan menu item yang dipilih
      */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_switch_layout -> {
-                // Sets isLinearLayoutManager (a Boolean) to the opposite value
+
                 isLinearLayoutManager = !isLinearLayoutManager
-                // Sets layout and icon
+
                 chooseLayout()
                 setIcon(item)
 
                 return true
             }
-            // Otherwise, do nothing and use the core event handling
-
-            // when clauses require that all possible paths be accounted for explicitly,
-            // for instance both the true and false cases if the value is a Boolean,
-            // or an else to catch all unhandled cases.
             else -> super.onOptionsItemSelected(item)
         }
     }

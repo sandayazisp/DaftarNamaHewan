@@ -25,24 +25,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.sandayazisp.daftarnamahewan.databinding.FragmentWordListBinding
 
 /**
- * Displays a [RecyclerView] of words with search buttons to look them up.
+ * membuat class WordListFragment untuk menampilkan kata dengan tombol pencarian untuk mencarinya.
  */
 class WordListFragment : Fragment() {
 
     /**
-     * Provides global access to these variables from anywhere in the app
-     * via DetailListFragment.<variable> without needing to create
-     * a DetailListFragment instance.
+     * kode dibawah digunakan untuk menyediakan akses global ke variabel-variabel dari aplikasi
+     * melalui DetailListFragment tanpa perlu membuatnya
      */
     companion object {
         val LETTER = "letter"
         val SEARCH_PREFIX = "https://www.google.com/search?q="
     }
 
+    // kode dibawah kita membuat view binding yang digunakan sebagai refrensi ke FragmentLetterListBinding dan memiliki nilai null
     private var _binding: FragmentWordListBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    // kode dibawah kita membuat kode binding yang memiliki properti get(). properti get() digunakan untuk mendapatkan nilai
     private val binding get() = _binding!!
 
     private lateinit var letterId: String
@@ -50,7 +49,7 @@ class WordListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Retrieve the LETTER from the Fragment arguments
+        // kode dibawah digunakan untuk mengambil LETTER dari argument Fragment
         arguments?.let {
             letterId = it.getString(LETTER).toString()
         }
@@ -61,7 +60,7 @@ class WordListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Retrieve and inflate the layout for this fragment
+        // kode dibawah digunakan untuk mengambil layout untuk fragment
         _binding = FragmentWordListBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,14 +70,13 @@ class WordListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = WordAdapter(letterId, requireContext())
 
-        // Adds a [DividerItemDecoration] between items
         recyclerView.addItemDecoration(
             DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         )
     }
 
     /**
-     * Frees the binding object when the Fragment is destroyed.
+     * kode dibawah digunakan untuk menyetel ulang properti _binding ke null karena tampilan sudah tidak ada.
      */
     override fun onDestroyView() {
         super.onDestroyView()

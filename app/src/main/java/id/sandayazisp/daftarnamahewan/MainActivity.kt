@@ -16,17 +16,16 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get the navigation host fragment from this Activity
+        // kode dibawah digunakan untuk mendapatkan fragment host navigasi
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        // Instantiate the navController using the NavHostFragment
+        // kode dibawah digunakan untuk membuat instance dengan navController menggunakan navHostFragment
         navController = navHostFragment.navController
-        // Make sure actions in the ActionBar get propagated to the NavController
         setupActionBarWithNavController(navController)
     }
 
     /**
-     * Enables back button support. Simply navigates one element up on the stack.
+     * kode dibawah digunakan untuk mengaktifkan tombol kembali
      */
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()

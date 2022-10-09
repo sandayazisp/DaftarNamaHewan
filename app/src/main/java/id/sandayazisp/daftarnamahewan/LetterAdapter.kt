@@ -9,19 +9,18 @@ import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import id.sandayazisp.daftarnamahewan.LetterListFragmentDirections
 
 /**
- * Adapter for the [RecyclerView] in [MainActivity].
+ * membuat class adaptor untuk recyclerview dan letterviewholder
  */
 class LetterAdapter :
     RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
 
-    // Generates a [CharRange] from 'A' to 'Z' and converts it to a list
+    // Kode dibawah digunakan untuk menghasilkan huruf dari 'A' sampai 'Z' dan mengubahnya menjadi daftar
     private val list = ('A').rangeTo('Z').toList()
 
     /**
-     * Provides a reference for the views needed to display items in your list.
+     * kode dibawah digunakan untuk menampilkan item dalam daftar
      */
     class LetterViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         val button = view.findViewById<Button>(R.id.button_item)
@@ -32,37 +31,34 @@ class LetterAdapter :
     }
 
     /**
-     * Creates new views with R.layout.item_view as its template
+     * kode dibawah digunakan untuk membuat tampilkan baru dari R.layout.item_view
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LetterViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_view, parent, false)
 
-        // Setup custom accessibility delegate to set the text read
+        // kode dibawah digunakan untuk membatu aksesibilitas untuk mengatur pembacaan teks
         layout.accessibilityDelegate = Accessibility
         return LetterViewHolder(layout)
     }
 
     /**
-     * Replaces the content of an existing view with new data
+     * kode dibawah digunakan untuk mengganti tampilan dengan data yang baru
      */
     override fun onBindViewHolder(holder: LetterViewHolder, position: Int) {
         val item = list.get(position)
         holder.button.text = item.toString()
 
-        // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
+        // kode dibawah digunakan untuk membuat fungsi tombol yang jika ditekan akan menampilkan viewholder
         holder.button.setOnClickListener {
-            // Create an action from WordList to DetailList
-            // using the required arguments
+            // kode dibawah kita membuat variabel dengan nama action yang mempunyai value aksi dari wordlistfragment ke letterlistfragment
             val action = LetterListFragmentDirections.actionLetterListFragmentToWordListFragment(letter = holder.button.text.toString())
-            // Navigate using that action
             holder.view.findNavController().navigate(action)
         }
     }
 
-    // Setup custom accessibility delegate to set the text read with
-    // an accessibility service
+    // kode dibawah digunakan untuk menyiapkan aksesibilitas untuk mengatur teks yang dibaca
     companion object Accessibility : View.AccessibilityDelegate() {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun onInitializeAccessibilityNodeInfo(
@@ -70,10 +66,8 @@ class LetterAdapter :
             info: AccessibilityNodeInfo
         ) {
             super.onInitializeAccessibilityNodeInfo(host, info)
-            // With `null` as the second argument to [AccessibilityAction], the
-            // accessibility service announces "double tap to activate".
-            // If a custom string is provided,
-            // it announces "double tap to <custom string>".
+            // kode dibawah kita membuat variabel dengan nama customString dan CustomClik
+            // jika variabel customclik diklik dua kali akan menjalankan variabel customstring dan nilai accesibility bernilai null
             val customString = host.context?.getString(R.string.look_up_words)
             val customClick =
                 AccessibilityNodeInfo.AccessibilityAction(

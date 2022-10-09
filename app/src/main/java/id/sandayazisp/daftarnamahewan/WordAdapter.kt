@@ -28,7 +28,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Adapter for the [RecyclerView] in [DetailActivity].
+ * membuat class WordAdapter untuk recyclerview
  */
 class WordAdapter(private val letterId: String, context: Context) :
     RecyclerView.Adapter<WordAdapter.WordViewHolder>() {
@@ -36,19 +36,16 @@ class WordAdapter(private val letterId: String, context: Context) :
     private val filteredWords: List<String>
 
     init {
-        // Retrieve the list of words from res/values/arrays.xml
+        // kode dibawah digunakan untuk mengambil data dari arrays.xml
         val words = context.resources.getStringArray(R.array.words).toList()
 
         filteredWords = words
-            // Returns items in a collection if the conditional clause is true,
-            // in this case if an item starts with the given letter,
-            // ignoring UPPERCASE or lowercase.
+            // kode dibawah digunakan untuk mengembalikan item dalam koleksi dan mengabaikan huruf uppercase
+            // mengembalikan n item pertama sebagai daftar
+            // mengembalikan urutan dari daftar
             .filter { it.startsWith(letterId, ignoreCase = true) }
-            // Returns a collection that it has shuffled in place
             .shuffled()
-            // Returns the first n items as a [List]
             .take(5)
-            // Returns a sorted version of that [List]
             .sorted()
     }
 
@@ -59,32 +56,32 @@ class WordAdapter(private val letterId: String, context: Context) :
     override fun getItemCount(): Int = filteredWords.size
 
     /**
-     * Creates new views with R.layout.item_view as its template
+     * kode dibawah digunakan untuk membuat tampilan baru dengan R.layout.item_view
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
         val layout = LayoutInflater
             .from(parent.context)
             .inflate(R.layout.item_view, parent, false)
 
-        // Setup custom accessibility delegate to set the text read
+        // membuat aksesibilitas untuk mengatur pembacaan teks
         layout.accessibilityDelegate = Accessibility
 
         return WordViewHolder(layout)
     }
 
     /**
-     * Replaces the content of an existing view with new data
+     * kode dibawah digunakan untuk mengganti konten tampilan yang ada dengan data baru
      */
     override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
 
         val item = filteredWords[position]
-        // Needed to call startActivity
+        // kode dibawah digunakan untuk memanggil startActivity
         val context = holder.view.context
 
-        // Set the text of the WordViewHolder
+        // kode dibawah digunakan untuk mengatur teks WordViewHolder
         holder.button.text = item
 
-        // Assigns a [OnClickListener] to the button contained in the [ViewHolder]
+        // kode dibawah merupakan fungsi tombol yang jika ditekan akan berpindah halaman ke search google
         holder.button.setOnClickListener {
             val queryUrl: Uri = Uri.parse("${WordListFragment.SEARCH_PREFIX}${item}")
             val intent = Intent(Intent.ACTION_VIEW, queryUrl)
@@ -92,8 +89,7 @@ class WordAdapter(private val letterId: String, context: Context) :
         }
     }
 
-    // Setup custom accessibility delegate to set the text read with
-    // an accessibility service
+    // kode dibawah digunakan untuk menyiapkan aksesibilitas untuk mengatur teks yang dibaca dengan layanan aksesibilitas
     companion object Accessibility : View.AccessibilityDelegate() {
         @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
         override fun onInitializeAccessibilityNodeInfo(
@@ -101,10 +97,6 @@ class WordAdapter(private val letterId: String, context: Context) :
             info: AccessibilityNodeInfo
         ) {
             super.onInitializeAccessibilityNodeInfo(host, info)
-            // With `null` as the second argument to [AccessibilityAction], the
-            // accessibility service announces "double tap to activate".
-            // If a custom string is provided,
-            // it announces "double tap to <custom string>".
             val customString = host.context?.getString(R.string.look_up_word)
             val customClick =
                 AccessibilityNodeInfo.AccessibilityAction(
